@@ -20,8 +20,26 @@ function loadData() {
     $body.append('<img class="bgimg" src="https://maps.googleapis.com/maps/api/streetview?size=600x400&location='+location+'&fov=90&heading=90&pitch=10&key=AIzaSyAi_4VnykfIe18gmpwO7kgIyJKGbJAaQgM">');
     $greeting.text("So you want to live at "+location+"?")
 
+    //NY times
+    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+	url += '?' + $.param({
+  		'api-key': "dc6f8263c2a44f6390e60d61ed92880e",
+  		'q': city,
+  		'begin_date': "20100101",
+  		'hl': "true"
+		});
+	$.ajax({
+  		url: url,
+  		method: 'GET',
+			}).done(function(result) {
+				// console.log(result);
+				result.response.docs.forEach(function(element){
+					console.log(element);
+				});
 
-    
+			}).fail(function(err) {
+  throw err;});
+
 
 
 
