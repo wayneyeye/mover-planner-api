@@ -64,6 +64,9 @@ function loadData() {
   		'callback': "wikiCallback"
 		});
 	var queryData=city;
+	var wikiTimeout=setTimeout(function(){
+		$wikiElem.text("Failed to Get Wiki Resources");
+	},8000);
 	$.ajax( {
 	    url: remoteUrlWithOrigin,
 	    dataType: 'jsonp',
@@ -74,6 +77,7 @@ function loadData() {
 	       	// console.log(data[1][i]);
 	       	$('#wikipedia-links').append('<li>'+'<a href='+data[3][i]+'>'+data[1][i]+'</a>'+'</li>');
 	       }
+	       clearTimeout(wikiTimeout);
 	    }
 	} );
 
