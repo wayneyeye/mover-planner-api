@@ -21,6 +21,7 @@ function loadData() {
     $greeting.text("So you want to live at "+location+"?")
 
     //NY times
+    $nytHeaderElem.text("New York Times Articles about "+city); //refresh the news header
     var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 	url += '?' + $.param({
   		'api-key': "dc6f8263c2a44f6390e60d61ed92880e",
@@ -33,10 +34,21 @@ function loadData() {
   		method: 'GET',
 			}).done(function(result) {
 				// console.log(result);
+				var counter=1;
 				result.response.docs.forEach(function(element){
-					console.log(element);
+					// console.log(element.abstract);
+					if (counter>4){
+						return;
+					}//show max 5 daily
+					var nyt_link=element.web_url;
+					var nyt_title=element.headline.main;
+					var nyt_p=element.snippet;
+					if(nyt_p!=null&&nyt_title!=null&&nyt_link!=null){
+						counter++;
+						$('#nytimes-articles').append('<li class="article">'+'<a href="'+nyt_link+'">'+nyt_title+'</a>'+'<p>'+nyt_p+'</p>'+'</li>');
+	
+					}			
 				});
-
 			}).fail(function(err) {
   throw err;});
 
